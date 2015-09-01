@@ -20,7 +20,7 @@ The app architecture, project and code organization, file structure and comments
     * **This is not applicable to the "Display All on Map" option.**
 1. Case the object has been previously saved, the "Save" button should become into a "Delete" button. Tapping this button will delete the current object from the database, after popping up a dialog confirming the deletion. User should be able to "Cancel" or "Delete" the item from the presented dialog.
     * **This is not applicable to the "Display All on Map" option.**
-1. Provide unit tests for models and view controllers, using the Android Testing API.
+1. Provide unit tests for models, activities and fragments, using the Android Testing API.
 
 
 
