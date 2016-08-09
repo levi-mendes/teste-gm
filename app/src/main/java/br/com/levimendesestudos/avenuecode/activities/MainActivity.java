@@ -4,8 +4,10 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 
 import java.util.List;
 
@@ -16,6 +18,7 @@ import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MainActivityPresenter;
 import br.com.levimendesestudos.avenuecode.utils.KeyBoardUtil;
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
@@ -27,6 +30,8 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
     ImageButton ibSearch;
     @BindView(R.id.rvAddresses)
     RecyclerView rvAddresses;
+    @BindView(R.id.pbLoading)
+    ProgressBar pbLoading;
 
     MainActivityPresenter mPresenter;
 
@@ -34,10 +39,23 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        etSearch.setText("Springfield");
 
         configureList();
 
         mPresenter = new MainActivityPresenter(this);
+    }
+
+    @Override
+    public void showPbLoading() {
+        pbLoading.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hidePbLoading() {
+        pbLoading.setVisibility(View.GONE);
     }
 
     @Override

@@ -18,5 +18,7 @@ public interface MainActivityMVP {
     interface View {
         String address();
         void loadList(List<Address> list);
+        void showPbLoading();
+        void hidePbLoading();
     }
 }
