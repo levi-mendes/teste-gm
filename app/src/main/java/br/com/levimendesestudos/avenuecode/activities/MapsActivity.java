@@ -8,11 +8,14 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import br.com.levimendesestudos.avenuecode.R;
+import br.com.levimendesestudos.avenuecode.models.Address;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
 
     private GoogleMap mMap;
 
@@ -43,5 +46,12 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public void addMarker(Address address) {
+        //Marker marker = mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
+        mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
+        //animateMarker(marker);
     }
 }

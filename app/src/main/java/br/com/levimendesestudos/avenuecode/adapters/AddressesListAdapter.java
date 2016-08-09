@@ -15,6 +15,7 @@ import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.activities.MapsActivity;
 import br.com.levimendesestudos.avenuecode.models.Address;
+import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -43,13 +44,14 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         final Address address = mList.get(position);
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callMaps(mList);
+                //callMaps(mList);
+                ToastUtil.showShort(mContext, "position: " + position);
             }
         });
         holder.tvFormattedAddress.setText(address.formattedAddress);
