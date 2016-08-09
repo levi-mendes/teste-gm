@@ -1,14 +1,11 @@
 package br.com.levimendesestudos.avenuecode.mvp.presenter;
 
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.deserializer.AddressDeserializer;
 import br.com.levimendesestudos.avenuecode.models.Address;
@@ -88,9 +85,9 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
     private void showNoResult(List<Address> list) {
         if (list == null || list.size() == 0) {
             mView.showNoResults();
-
-        } else {
-            mView.hideNoResults();
+            return;
         }
+
+        mView.hideNoResults();
     }
 }
