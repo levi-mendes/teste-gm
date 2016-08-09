@@ -1,13 +1,19 @@
 package br.com.levimendesestudos.avenuecode.adapters;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import java.util.ArrayList;
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
+import br.com.levimendesestudos.avenuecode.activities.MapsActivity;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,9 +44,25 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Address address = mList.get(position);
+        final Address address = mList.get(position);
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                callMaps(mList);
+            }
+        });
         holder.tvFormattedAddress.setText(address.formattedAddress);
+    }
+
+    private void callMaps(List<Address> list) {
+        Intent intent = new Intent(mContext, MapsActivity.class);
+
+        Bundle bundle = new Bundle();
+
+        bundle.putSerializable("addresses", (ArrayList)list);
+
+        mContext.startActivity(intent);
     }
 
     @Override
