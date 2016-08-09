@@ -57,6 +57,11 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
 
     private void callMaps(List<Address> list, int position) {
         Bundle bundle = new Bundle();
+
+        if (position == 0 && list.size() > 1) {
+            bundle.putBoolean("all", true);
+        }
+
         Intent intent = new Intent(mContext, MapsActivity.class);
         bundle.putInt("position", position);
         bundle.putSerializable("addresses", (ArrayList)list);

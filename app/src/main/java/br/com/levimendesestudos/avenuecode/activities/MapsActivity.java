@@ -25,6 +25,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private GoogleMap mMap;
     private MapActivityPresenter mPresenter;
     private Address mAddress;
+    private boolean mAll;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,13 +68,28 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
     private void init() {
         int position = getIntent().getIntExtra("position", 1);
-        mAddress = ((List<Address>)getIntent().getSerializableExtra("addresses")).get(position);
-        addMarker(mAddress);
+        mAll = getIntent().getBooleanExtra("all", false);
+
+        List<Address> list = (List<Address>)getIntent().getSerializableExtra("addresses");
+
+        if (!mAll) {
+            mAddress = list.get(position);
+            addMarker(mAddress);
+            return;
+        }
+
+        for (int cont = 1; cont < list.size(); cont++) {
+            addMarker(list.get(cont));
+        }
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        if (mAll) {
+            return false;
+        }
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.maps_menu, menu);
 
