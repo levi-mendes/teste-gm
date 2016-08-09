@@ -11,7 +11,7 @@ public interface MainActivityMVP {
 
     //Presenter should implement this interface
     interface UserActions {
-        List<Address> search();
+        void search();
     }
 
     //UI should implement this interface
@@ -20,5 +20,7 @@ public interface MainActivityMVP {
         void loadList(List<Address> list);
         void showPbLoading();
         void hidePbLoading();
+        void showNoResults();
+        void hideNoResults();
     }
 }

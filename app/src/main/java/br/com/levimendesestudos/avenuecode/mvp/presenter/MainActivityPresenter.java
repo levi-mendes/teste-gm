@@ -44,7 +44,7 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
     }
 
     @Override
-    public List<Address> search() {
+    public void search() {
         mView.showPbLoading();
 
         Map<String, String> params = new HashMap<>();
@@ -70,6 +70,14 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
 
                     @Override
                     public void onNext(List<Address> result) {
+
+                        if (result == null || result.size() == 0) {
+                            mView.showNoResults();
+
+                        } else {
+                            mView.hideNoResults();
+                        }
+
                         if (result != null && result.size() > 1) {
                             Address address = new Address();
                             address.formattedAddress = "Display All on Map";
@@ -79,8 +87,5 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
                         mView.loadList(result);
                     }
                 });
-
-
-        return null;
     }
 }

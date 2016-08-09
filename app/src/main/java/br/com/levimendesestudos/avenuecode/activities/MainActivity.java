@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
+
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.adapters.AddressesListAdapter;
@@ -30,6 +32,8 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
     RecyclerView rvAddresses;
     @BindView(R.id.pbLoading)
     ProgressBar pbLoading;
+    @BindView(R.id.tvNoResults)
+    TextView tvNoResults;
 
     MainActivityPresenter mPresenter;
 
@@ -54,6 +58,16 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
     @Override
     public void hidePbLoading() {
         pbLoading.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showNoResults() {
+        tvNoResults.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideNoResults() {
+        tvNoResults.setVisibility(View.GONE);
     }
 
     @Override

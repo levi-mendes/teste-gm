@@ -1,6 +1,9 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -16,6 +19,7 @@ import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapActivityPresenter;
+import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
 
@@ -48,6 +52,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mMap = googleMap;
 
         addMarkers();
+        //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
     }
 
     public void addMarkers() {
@@ -60,4 +65,28 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
             //animateMarker(marker);
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.maps_menu, menu);
+        //menu.findItem(R.id.itemSave).setVisible(false);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.itemSave:
+                ToastUtil.showShort(this, "Menu Item 1 selected");
+                break;
+
+            case R.id.itemDelete:
+                ToastUtil.showShort(this, "Menu item 2 selected");
+                break;
+        }
+        return true;
+    }
+
 }

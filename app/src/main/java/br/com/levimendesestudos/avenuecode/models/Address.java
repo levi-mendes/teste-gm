@@ -12,6 +12,6 @@ public class Address implements Serializable {
 
     @Override
     public String toString() {
-        return "Address: " + formattedAddress + "\nCoordinates>> lat: " + lati+ " long: " + longi;
+        return "Address: " + formattedAddress + "  Coordinates>> lat: " + lati+ " long: " + longi;
     }
 }
