@@ -12,6 +12,4 @@ public class MapActivityPresenter implements MapsActivityMVP.UserActions {
     public MapActivityPresenter(MapsActivityMVP.View view) {
         mView = view;
     }
-
-
 }

@@ -1,5 +1,7 @@
 package br.com.levimendesestudos.avenuecode.mvp.contracts;
 
+import java.util.List;
+
 import br.com.levimendesestudos.avenuecode.models.Address;
 
 /**
@@ -9,11 +11,11 @@ public interface MapsActivityMVP {
 
     //Presenter should implement this interface
     interface UserActions {
-
+        //void plotMarkers();
     }
 
     //UI should implement this interface
     interface View {
-        void addMarker(Address address);
+
     }
 }

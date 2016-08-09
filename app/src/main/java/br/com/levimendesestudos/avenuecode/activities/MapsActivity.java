@@ -1,6 +1,5 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -11,13 +10,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.List;
+
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MapActivityPresenter;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
 
     private GoogleMap mMap;
+    private MapActivityPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        mPresenter = new MapActivityPresenter(this);
     }
 
 
@@ -42,16 +47,17 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        addMarkers();
     }
 
-    @Override
-    public void addMarker(Address address) {
-        //Marker marker = mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
-        mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
-        //animateMarker(marker);
+    public void addMarkers() {
+        List<Address> addresses = (List<Address>)getIntent().getSerializableExtra("addresses");
+
+        for (int cont = 0; cont < addresses.size(); cont++) {
+            Address address = addresses.get(cont);
+            //Marker marker = mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
+            mMap.addMarker(new MarkerOptions().position(new LatLng(address.lati, address.longi)).title(address.toString()));
+            //animateMarker(marker);
+        }
     }
 }

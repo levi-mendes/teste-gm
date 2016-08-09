@@ -50,7 +50,7 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //callMaps(mList);
+                callMaps(mList);
                 ToastUtil.showShort(mContext, "position: " + position);
             }
         });
@@ -60,10 +60,13 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
     private void callMaps(List<Address> list) {
         Intent intent = new Intent(mContext, MapsActivity.class);
 
+        if (list.size() > 1) {
+            list.remove(0);
+        }
+
         Bundle bundle = new Bundle();
-
         bundle.putSerializable("addresses", (ArrayList)list);
-
+        intent.putExtras(bundle);
         mContext.startActivity(intent);
     }
 

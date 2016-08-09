@@ -50,7 +50,8 @@ public class AddressDeserializer implements JsonDeserializer<Object> {
                 Address address = new Address();
 
                 address.formattedAddress = formattedAddress;
-                address.latLng = latLng;
+                address.lati             = latitude;
+                address.longi            = longitude;
 
                 list.add(address);
             }
