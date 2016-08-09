@@ -52,40 +52,45 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
         params.put("sensor", "false");
 
         mGoogleAPI.search(params)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Address>>(){
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(new Subscriber<List<Address>>(){
+                @Override
+                public void onCompleted() {
+                    mView.hidePbLoading();
+                    unsubscribe();
+                }
 
-                    @Override
-                    public void onCompleted() {
-                        mView.hidePbLoading();
-                        unsubscribe();
-                    }
+                @Override
+                public void onError(Throwable e) {
+                    unsubscribe();
+                    Log.e("onError", e.getMessage(), e);
+                }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        unsubscribe();
-                        Log.e("onError", e.getMessage(), e);
-                    }
+                @Override
+                public void onNext(List<Address> result) {
+                    showNoResult(result);
+                    addShowDisplayAll(result);
 
-                    @Override
-                    public void onNext(List<Address> result) {
+                    mView.loadList(result);
+                }
+            });
+    }
 
-                        if (result == null || result.size() == 0) {
-                            mView.showNoResults();
+    private void addShowDisplayAll(List<Address> list) {
+        if (list != null && list.size() > 1) {
+            Address address = new Address();
+            address.formattedAddress = "Display All on Map";
+            list.add(0, address);
+        }
+    }
 
-                        } else {
-                            mView.hideNoResults();
-                        }
+    private void showNoResult(List<Address> list) {
+        if (list == null || list.size() == 0) {
+            mView.showNoResults();
 
-                        if (result != null && result.size() > 1) {
-                            Address address = new Address();
-                            address.formattedAddress = "Display All on Map";
-                            result.add(0, address);
-                        }
-
-                        mView.loadList(result);
-                    }
-                });
+        } else {
+            mView.hideNoResults();
+        }
     }
 }

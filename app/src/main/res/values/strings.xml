@@ -6,4 +6,8 @@
     <string name="no_resullts">No Resullts</string>
     <string name="save">Save</string>
     <string name="delete">Delete</string>
+    <string name="warnning">Warnning</string>
+    <string name="do_you_confirm_deletion">Do you confirm deletion</string>
+    <string name="item_deleted_from_table">Item deleted from table</string>
+    <string name="item_saved">Item saved</string>
 </resources>

@@ -4,27 +4,27 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
 import br.com.levimendesestudos.avenuecode.R;
+import br.com.levimendesestudos.avenuecode.db.AddressDB;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapActivityPresenter;
+import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
 import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
 
     private GoogleMap mMap;
     private MapActivityPresenter mPresenter;
+    private Address mAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,26 +51,43 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        addMarkers();
+        init();
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
     }
 
-    public void addMarkers() {
-        List<Address> addresses = (List<Address>)getIntent().getSerializableExtra("addresses");
+    public void addMarker(Address address) {
+        LatLng latLng = new LatLng(address.lati, address.longi);
 
-        for (int cont = 0; cont < addresses.size(); cont++) {
-            Address address = addresses.get(cont);
-            //Marker marker = mMap.addMarker(new MarkerOptions().position(address.latLng).title(address.formattedAddress));
-            mMap.addMarker(new MarkerOptions().position(new LatLng(address.lati, address.longi)).title(address.toString()));
-            //animateMarker(marker);
-        }
+        MarkerOptions markerOptions = new MarkerOptions()
+                .position(latLng)
+                .title(address.toString());
+
+        mMap.addMarker(markerOptions);
     }
+
+    private void init() {
+        int position = getIntent().getIntExtra("position", 1);
+        mAddress = ((List<Address>)getIntent().getSerializableExtra("addresses")).get(position);
+        addMarker(mAddress);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.maps_menu, menu);
-        //menu.findItem(R.id.itemSave).setVisible(false);
+
+        AddressDB db = new AddressDB(this);
+        Address address = db.find(mAddress.formattedAddress);
+
+        if (address == null) {
+            menu.findItem(R.id.itemSave).setVisible(true);
+            menu.findItem(R.id.itemDelete).setVisible(false);
+
+        } else {
+            menu.findItem(R.id.itemSave).setVisible(false);
+            menu.findItem(R.id.itemDelete).setVisible(true);
+        }
 
         return true;
     }
@@ -79,14 +96,43 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.itemSave:
-                ToastUtil.showShort(this, "Menu Item 1 selected");
+                save();
                 break;
 
             case R.id.itemDelete:
-                ToastUtil.showShort(this, "Menu item 2 selected");
+                delete();
                 break;
         }
         return true;
+    }
+
+    private void save() {
+        AddressDB db = new AddressDB(MapsActivity.this);
+        boolean res = db.save(mAddress);
+
+        if (res) {
+            ToastUtil.showShort(this, getString(R.string.item_saved));
+            finish();
+        }
+    }
+
+    private void delete() {
+        ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.do_you_confirm_deletion, android.R.string.ok);
+
+        confirmationDF.setOnDialogOptionClickListener(new ConfirmationDF.OnDialogOptionClickListener() {
+            @Override
+            public void onDialogOptionPressed(Object object) {
+                AddressDB db = new AddressDB(MapsActivity.this);
+                boolean res = db.delete(mAddress);
+
+                if (res) {
+                    ToastUtil.showShort(MapsActivity.this, R.string.item_deleted_from_table);
+                    finish();
+                }
+
+            }
+        });
+        confirmationDF.show(getFragmentManager(), "confirmationDF");
     }
 
 }

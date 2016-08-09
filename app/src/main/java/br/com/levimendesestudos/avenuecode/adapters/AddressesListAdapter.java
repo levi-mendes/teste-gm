@@ -24,8 +24,6 @@ import butterknife.ButterKnife;
  */
 public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdapter.ViewHolder> {
 
-    //public List<Solicitacao> mDataset;
-    //private ListaOnCheckListener mListaOnCheckListener;
     private Context mContext;
     private List<Address> mList;
 
@@ -50,21 +48,17 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                callMaps(mList);
+                callMaps(mList, position);
                 ToastUtil.showShort(mContext, "position: " + position);
             }
         });
         holder.tvFormattedAddress.setText(address.formattedAddress);
     }
 
-    private void callMaps(List<Address> list) {
-        Intent intent = new Intent(mContext, MapsActivity.class);
-
-        if (list.size() > 1) {
-            list.remove(0);
-        }
-
+    private void callMaps(List<Address> list, int position) {
         Bundle bundle = new Bundle();
+        Intent intent = new Intent(mContext, MapsActivity.class);
+        bundle.putInt("position", position);
         bundle.putSerializable("addresses", (ArrayList)list);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
