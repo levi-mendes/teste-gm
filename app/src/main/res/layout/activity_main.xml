@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,13 +9,35 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="br.com.levimendesestudos.avenuecode.MainActivity">
+    tools:context=".activities.MainActivity">
 
-    <EditText
-        android:id="@+id/etPesquisa"
-        android:maxLines="1"
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:imeOptions="actionSearch" />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <EditText
+            android:hint="@string/type_the_address"
+            android:id="@+id/etSearch"
+            android:maxLines="1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:imeOptions="actionSearch" />
+
+        <ImageButton
+            android:id="@+id/ibSearch"
+            android:padding="5dp"
+            android:src="@android:drawable/ic_menu_search"
+            android:layout_width="100dp"
+            android:layout_height="50dp" />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rvAddresses"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+</LinearLayout>

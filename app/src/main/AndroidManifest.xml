@@ -29,8 +29,8 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_maps">
+            android:windowSoftInputMode="stateHidden"
+            android:name=".activities.MainActivity">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +39,9 @@
 
         </activity>
 
-        <activity android:name=".MapsActivity" />
+        <activity
+            android:name=".activities.MapsActivity"
+            android:label="@string/title_activity_maps" />
 
     </application>
 
