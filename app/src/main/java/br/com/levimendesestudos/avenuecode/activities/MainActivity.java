@@ -8,9 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.adapters.AddressesListAdapter;
 import br.com.levimendesestudos.avenuecode.models.Address;

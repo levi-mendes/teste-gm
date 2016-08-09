@@ -1,16 +1,12 @@
 package br.com.levimendesestudos.avenuecode.adapters;
 
 import android.content.Context;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.TextView;
-
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import butterknife.BindView;
@@ -42,27 +38,9 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
     // Replace the contents of a view (invoked by the layout manager)
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        /*Solicitacao solicitacao = mDataset.get(position);
+        Address address = mList.get(position);
 
-        holder.cb.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            solicitacao.marked = isChecked;
-            mListaOnCheckListener.onCheckSolicitacao(position, isChecked);
-        });
-        holder.cb.setChecked(solicitacao.marked);
-        holder.tvIdSolicitacao.setText(String.valueOf(solicitacao.codigoSolicitacao));
-        holder.tvProtocolo.setText(String.valueOf(solicitacao.protocolo));
-        holder.tvDataProjeto.setText(solicitacao.dataProtocolo);
-        holder.tvNumProjeto.setText(String.valueOf(solicitacao.projeto));
-        holder.tvEndereco.setText(solicitacao.endereco);
-        holder.tvBairro.setText(solicitacao.bairro);
-        holder.tvMunicipio.setText(solicitacao.municipio);
-
-        if (position % 2 == 0) {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.linha_par));
-
-        } else {
-            holder.itemView.setBackgroundColor(ContextCompat.getColor(mContext, R.color.linha_impar));
-        }*/
+        holder.tvFormattedAddress.setText(address.formattedAddress);
     }
 
     @Override
@@ -72,8 +50,8 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
 
     class ViewHolder extends RecyclerView.ViewHolder {
 
-        //@BindView(R.id.cb)
-        //CheckBox cb;
+        @BindView(R.id.tvFormattedAddress)
+        TextView tvFormattedAddress;
 
         public ViewHolder(View v) {
             super(v);
