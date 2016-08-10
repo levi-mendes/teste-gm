@@ -1,5 +1,6 @@
 package br.com.levimendesestudos.avenuecode;
 
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -30,6 +31,14 @@ public class MainActivityTest {
         onView(withId(R.id.etSearch)).perform(typeText("0000099384958984598459"));
         onView(withId(R.id.ibSearch)).perform(click());
         onView(withId(R.id.tvNoResults)).check(matches(isDisplayed()));
+    }
+
+    @Test
+    public void shouldShowItemSave() {
+        onView(withId(R.id.etSearch)).perform(typeText("Springfield"));
+        onView(withId(R.id.ibSearch)).perform(click());
+        onView(withId(R.id.rvAddresses)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
+        onView(withId(R.id.itemSave)).check(matches(isDisplayed()));
     }
 
 }
