@@ -10,6 +10,12 @@ public class Address implements Serializable {
     public double lati;
     public double longi;
 
+    public Address(String formattedAddress, double lati, double longi) {
+        this.formattedAddress = formattedAddress;
+        this.lati = lati;
+        this.longi = longi;
+    }
+
     @Override
     public String toString() {
         return "Address: " + formattedAddress + "  Coordinates>> lat: " + lati+ " long: " + longi;

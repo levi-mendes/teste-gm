@@ -20,15 +20,12 @@ import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.db.AddressDB;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
-import br.com.levimendesestudos.avenuecode.mvp.presenter.MapActivityPresenter;
 import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
 import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-    private MapActivityPresenter mPresenter;
     private Address mAddress;
     private boolean mAll;
     private LatLngBounds.Builder mBuilder = new LatLngBounds.Builder();
@@ -42,8 +39,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-
-        mPresenter = new MapActivityPresenter(this);
 
         mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
         //flag that indicates if all or a sinlge address

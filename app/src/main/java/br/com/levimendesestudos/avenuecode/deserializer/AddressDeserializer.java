@@ -45,13 +45,7 @@ public class AddressDeserializer implements JsonDeserializer<Object> {
                 double latitude  = location.get("lat").getAsDouble();
                 double longitude = location.get("lng").getAsDouble();
 
-                LatLng latLng = new LatLng(latitude, longitude);
-
-                Address address = new Address();
-
-                address.formattedAddress = formattedAddress;
-                address.lati             = latitude;
-                address.longi            = longitude;
+                Address address = new Address(formattedAddress, latitude, longitude);
 
                 list.add(address);
             }

@@ -46,7 +46,8 @@ public class AddressDB extends DBGenericClass {
         Cursor cursor = database.query(TB_NAME, null, ADDRESS + " = ?", param, null, null, null);
 
         if (cursor.moveToFirst()) {
-            result = new Address();
+            //return any object just to say "that address exists"
+            result = new Address(null, 0.0, 0.0);
         }
 
         fecharCursor(cursor);

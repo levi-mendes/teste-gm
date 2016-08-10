@@ -26,18 +26,9 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
 
     GoogleAPI mGoogleAPI;
 
-    public MainActivityPresenter(MainActivityMVP.View view) {
-        mView = view;
-
-        Gson gson = new GsonBuilder().registerTypeAdapter(List.class, new AddressDeserializer()).create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GoogleAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        mGoogleAPI = retrofit.create(GoogleAPI.class);
+    public MainActivityPresenter(MainActivityMVP.View view, GoogleAPI googleAPI) {
+        mView      = view;
+        mGoogleAPI = googleAPI;
     }
 
     @Override
@@ -67,28 +58,23 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
 
                 @Override
                 public void onNext(List<Address> result) {
-                    showNoResult(result);
-                    addShowDisplayAll(result);
+                    if (result == null || result.size() == 0) {
+                        mView.showNoResults();
+                        return;
+                    }
 
+                    addShowDisplayAll(result);
+                    mView.hideNoResults();
                     mView.loadList(result);
                 }
             });
     }
 
     private void addShowDisplayAll(List<Address> list) {
-        if (list != null && list.size() > 1) {
-            Address address = new Address();
-            address.formattedAddress = "Display All on Map";
+        if (list.size() > 1) {
+            Address address = new Address("Display All on Map", 0.0, 0.0);
             list.add(0, address);
         }
     }
 
-    private void showNoResult(List<Address> list) {
-        if (list == null || list.size() == 0) {
-            mView.showNoResults();
-            return;
-        }
-
-        mView.hideNoResults();
-    }
 }

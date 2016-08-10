@@ -39,13 +39,7 @@ public class MapsActivityTest {
             Context targetContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
             Intent intent = new Intent(targetContext, MainActivity.class);
 
-            Address address = new Address();
-
-            //Address: "Caieiras, SP, Brazil"  Coordinates>> lat: -23.3612198 long: -46.7401869
-
-            address.formattedAddress = "Caieiras, SP, Brazil";
-            address.lati             = -23.3612198;
-            address.longi            = -46.7401869;
+            Address address = new Address("Caieiras, SP, Brazil", -23.3612198, -46.7401869);
 
             List<Address> list = new ArrayList<>();
 
