@@ -1,0 +1,36 @@
+- Main architecture decisions you've made and a quick explanation of why.
+
+	- I started using MVP architecture, but because of little time didin't was possible to implement at the class MapActivity
+
+- List of third party libraries and why you chose each one.
+
+	- RxJava / Retrofit
+		Facilitate the work with the web services from google api
+
+	- Espresso / Mockito / JUnit
+		Tests in general
+
+	- Gson
+		Parse de Objetos Json to Object and vice versa
+
+	- Butterknife
+		View inject, to avoid findViewById
+
+	- Retrolambda
+		Use some java 8 features
+
+	- EventBus
+		communication between presenter and screeen to decouple the components
+
+- What in your code could be improved if you had more time.
+
+	- Review MVP architecture
+	- Error Handling
+	- Improve design
+	- More animations
+	- More Unit Tests
+	- Block all identified possible memory leak
+
+- Mention anything that was asked but not delivered and why, and any additional comments.
+
+	- Apparently I implemented all fetures asked
