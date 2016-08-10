@@ -10,4 +10,5 @@
     <string name="do_you_confirm_deletion">Do you confirm deletion</string>
     <string name="item_deleted_from_table">Item deleted from table</string>
     <string name="item_saved">Item saved</string>
+    <string name="cancel">Cancel</string>
 </resources>

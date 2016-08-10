@@ -4,10 +4,14 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -26,6 +30,9 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private MapActivityPresenter mPresenter;
     private Address mAddress;
     private boolean mAll;
+    private LatLngBounds.Builder mBuilder = new LatLngBounds.Builder();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +60,27 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mMap = googleMap;
 
         init();
+        zoom();
+
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+    }
+
+    private void zoom() {
+        LatLngBounds bounds = mBuilder.build();
+
+        /*int padding = 20; // offset from edges of the map in pixels
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+        mMap.animateCamera(cu);*/
+
+        // begin new code:
+        int width = getResources().getDisplayMetrics().widthPixels;
+        int height = getResources().getDisplayMetrics().heightPixels;
+        int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
+
+        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
+        // end of new code
+
+        mMap.animateCamera(cu);
     }
 
     public void addMarker(Address address) {
@@ -64,20 +91,25 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
                 .title(address.toString());
 
         mMap.addMarker(markerOptions);
+
+        mBuilder.include(latLng);
     }
 
     private void init() {
-        int position = getIntent().getIntExtra("position", 1);
+        //flag that indicates if all or a sinlge address
         mAll = getIntent().getBooleanExtra("all", false);
 
         List<Address> list = (List<Address>)getIntent().getSerializableExtra("addresses");
 
         if (!mAll) {
+            //if a single item, we nees to get the selected position in the list
+            int position = getIntent().getIntExtra("position", 1);
             mAddress = list.get(position);
             addMarker(mAddress);
             return;
         }
 
+        //add a marker for each item in the list
         for (int cont = 1; cont < list.size(); cont++) {
             addMarker(list.get(cont));
         }
@@ -86,6 +118,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        //menu not necessary in case of all items
         if (mAll) {
             return false;
         }
@@ -135,17 +168,14 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private void delete() {
         ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.do_you_confirm_deletion, android.R.string.ok);
 
-        confirmationDF.setOnDialogOptionClickListener(new ConfirmationDF.OnDialogOptionClickListener() {
-            @Override
-            public void onDialogOptionPressed(Object object) {
-                AddressDB db = new AddressDB(MapsActivity.this);
-                boolean res = db.delete(mAddress);
+        confirmationDF.setOnDialogOptionClickListener(object -> {
 
-                if (res) {
-                    ToastUtil.showShort(MapsActivity.this, R.string.item_deleted_from_table);
-                    finish();
-                }
+            AddressDB db = new AddressDB(MapsActivity.this);
+            boolean res = db.delete(mAddress);
 
+            if (res) {
+                ToastUtil.showShort(MapsActivity.this, R.string.item_deleted_from_table);
+                finish();
             }
         });
         confirmationDF.show(getFragmentManager(), "confirmationDF");

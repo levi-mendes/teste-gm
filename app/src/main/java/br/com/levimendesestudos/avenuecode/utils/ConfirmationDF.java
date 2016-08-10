@@ -7,6 +7,8 @@ import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 
+import br.com.levimendesestudos.avenuecode.R;
+
 public class ConfirmationDF<T> extends DialogFragment implements OnClickListener {
 
 	private static final String ARG_TITLE       = "br.com.levimendesestudos.avenuecode.fragment.ConfirmationDialogFragment.ARG_TITLE";
@@ -52,7 +54,7 @@ public class ConfirmationDF<T> extends DialogFragment implements OnClickListener
 		alert.setTitle(title);
 		alert.setMessage(message);
 		alert.setPositiveButton(buttonText, this);
-		alert.setNegativeButton(android.R.string.cancel, null);
+		alert.setNegativeButton(R.string.cancel, null);
 
 		return alert.create();
 	}

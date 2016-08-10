@@ -4,18 +4,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.util.ArrayList;
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.activities.MapsActivity;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -40,18 +37,11 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
         return vh;
     }
 
-    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(ViewHolder holder, final int position) {
-        final Address address = mList.get(position);
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        Address address = mList.get(position);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                callMaps(mList, position);
-                ToastUtil.showShort(mContext, "position: " + position);
-            }
-        });
+        holder.itemView.setOnClickListener(view -> callMaps(mList, position));
         holder.tvFormattedAddress.setText(address.formattedAddress);
     }
 
