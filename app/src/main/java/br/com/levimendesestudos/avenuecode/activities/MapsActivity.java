@@ -45,7 +45,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mPresenter = new MapActivityPresenter(this);
 
         mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
-
         //flag that indicates if all or a sinlge address
         mAll       = getIntent().getBooleanExtra("all", false);
     }
@@ -64,6 +63,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        //after map is ready...
+
         init();
         zoom();
 
@@ -73,18 +74,11 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private void zoom() {
         LatLngBounds bounds = mBuilder.build();
 
-        /*int padding = 20; // offset from edges of the map in pixels
-        CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
-        mMap.animateCamera(cu);*/
-
-        // begin new code:
-        int width = getResources().getDisplayMetrics().widthPixels;
-        int height = getResources().getDisplayMetrics().heightPixels;
+        int width   = getResources().getDisplayMetrics().widthPixels;
+        int height  = getResources().getDisplayMetrics().heightPixels;
         int padding = (int) (width * 0.12); // offset from edges of the map 12% of screen
 
         CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, width, height, padding);
-        // end of new code
-
         mMap.animateCamera(cu);
     }
 
@@ -102,14 +96,18 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
     private void init() {
         if (!mAll) {
-            //if a single item, we nees to get the selected position in the list
-            int position = getIntent().getIntExtra("position", 1);
-            mAddress = mList.get(position);
-            addMarker(mAddress);
+            loadSingle();
             return;
         }
 
         loadAll();
+    }
+
+    private void loadSingle() {
+        //if a single item, we nees to get the selected position in the list
+        int position = getIntent().getIntExtra("position", 1);
+        mAddress = mList.get(position);
+        addMarker(mAddress);
     }
 
     private void loadAll() {
