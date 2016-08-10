@@ -1,9 +1,10 @@
-package br.com.levimendesestudos.avenuecode;
+package br.com.levimendesestudos.avenuecode.activities;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
+import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 import android.test.suitebuilder.annotation.LargeTest;
@@ -12,6 +13,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
+
+import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.activities.MainActivity;
 import br.com.levimendesestudos.avenuecode.activities.MapsActivity;
 import br.com.levimendesestudos.avenuecode.models.Address;
@@ -63,6 +66,6 @@ public class MapsActivityTest {
 
     @Test
     public void shouldShowSaveItemSave() {
-        onView(withId(R.id.itemSave)).check(matches(isDisplayed()));
+        onView(ViewMatchers.withId(R.id.itemSave)).check(matches(isDisplayed()));
     }
 }
