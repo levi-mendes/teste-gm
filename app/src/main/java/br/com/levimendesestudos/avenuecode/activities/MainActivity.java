@@ -43,8 +43,6 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        etSearch.setText("Springfield");
-
         configureList();
 
         mPresenter = new MainActivityPresenter(this);

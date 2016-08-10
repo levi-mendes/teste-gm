@@ -1,6 +1,7 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -83,6 +84,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     }
 
     public void addMarker(Address address) {
+        Log.e("addMarker", address.toString());
+
         LatLng latLng = new LatLng(address.lati, address.longi);
 
         MarkerOptions markerOptions = new MarkerOptions()
