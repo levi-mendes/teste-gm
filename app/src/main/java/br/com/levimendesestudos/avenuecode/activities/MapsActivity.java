@@ -31,7 +31,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     private Address mAddress;
     private boolean mAll;
     private LatLngBounds.Builder mBuilder = new LatLngBounds.Builder();
-
+    private List<Address> mList;
 
 
     @Override
@@ -43,6 +43,11 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mapFragment.getMapAsync(this);
 
         mPresenter = new MapActivityPresenter(this);
+
+        mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
+
+        //flag that indicates if all or a sinlge address
+        mAll       = getIntent().getBooleanExtra("all", false);
     }
 
 
@@ -96,22 +101,21 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     }
 
     private void init() {
-        //flag that indicates if all or a sinlge address
-        mAll = getIntent().getBooleanExtra("all", false);
-
-        List<Address> list = (List<Address>)getIntent().getSerializableExtra("addresses");
-
         if (!mAll) {
             //if a single item, we nees to get the selected position in the list
             int position = getIntent().getIntExtra("position", 1);
-            mAddress = list.get(position);
+            mAddress = mList.get(position);
             addMarker(mAddress);
             return;
         }
 
+        loadAll();
+    }
+
+    private void loadAll() {
         //add a marker for each item in the list
-        for (int cont = 1; cont < list.size(); cont++) {
-            addMarker(list.get(cont));
+        for (int cont = 1; cont < mList.size(); cont++) {
+            addMarker(mList.get(cont));
         }
     }
 
@@ -166,7 +170,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     }
 
     private void delete() {
-        ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.do_you_confirm_deletion, android.R.string.ok);
+        ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.are_you_sure, android.R.string.ok);
 
         confirmationDF.setOnDialogOptionClickListener(object -> {
 

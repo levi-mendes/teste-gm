@@ -42,6 +42,7 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
 
     @Override
     public void search() {
+        mView.hideKeyboard();
         mView.showPbLoading();
 
         Map<String, String> params = new HashMap<>();

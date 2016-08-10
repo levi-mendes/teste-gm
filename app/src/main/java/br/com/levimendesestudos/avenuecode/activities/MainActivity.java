@@ -77,15 +77,18 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
 
     @OnEditorAction(R.id.etSearch)
     public boolean etSearchAction() {
-        KeyBoardUtil.hide(etSearch);
+        mPresenter.search();
 
         return true;
     }
 
+    @Override
+    public void hideKeyboard() {
+        KeyBoardUtil.hide(ibSearch);
+    }
+
     @OnClick(R.id.ibSearch)
     public void ibSearchClick() {
-        KeyBoardUtil.hide(ibSearch);
-
         mPresenter.search();
     }
 

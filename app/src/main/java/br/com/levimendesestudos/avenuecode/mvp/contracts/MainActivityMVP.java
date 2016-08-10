@@ -22,5 +22,6 @@ public interface MainActivityMVP {
         void hidePbLoading();
         void showNoResults();
         void hideNoResults();
+        void hideKeyboard();
     }
 }
