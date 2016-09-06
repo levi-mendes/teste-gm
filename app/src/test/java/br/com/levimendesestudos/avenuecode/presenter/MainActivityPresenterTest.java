@@ -9,6 +9,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
@@ -27,13 +29,14 @@ public class MainActivityPresenterTest {
     @Mock
     private MainActivityMVP.View mView;
     @Mock
+    @Inject
     private GoogleAPI mGoogleAPI;
 
     MainActivityPresenter mPresenter;
 
     @Before
     public void setUp() throws Exception {
-        mPresenter = new MainActivityPresenter(mView, mGoogleAPI);
+        mPresenter = new MainActivityPresenter(mView);
     }
 
     @Test

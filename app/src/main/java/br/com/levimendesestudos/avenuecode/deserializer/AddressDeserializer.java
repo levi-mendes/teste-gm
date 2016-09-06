@@ -1,7 +1,5 @@
 package br.com.levimendesestudos.avenuecode.deserializer;
 
-import com.google.android.gms.maps.model.LatLng;
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
@@ -37,7 +35,7 @@ public class AddressDeserializer implements JsonDeserializer<Object> {
                 JsonElement jsonElement = array.get(cont);
                 JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-                String formattedAddress = jsonObject.get("formatted_address").toString();
+                String formattedAddress = jsonObject.get("formatted_address").toString().replace("\"", "");
 
                 JsonObject geometry    = jsonObject.getAsJsonObject("geometry");
                 JsonObject location    = geometry.getAsJsonObject("location");

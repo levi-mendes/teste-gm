@@ -9,15 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.adapters.AddressesListAdapter;
-import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
-import br.com.levimendesestudos.avenuecode.deserializer.AddressDeserializer;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MainActivityPresenter;
@@ -26,9 +20,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
 
 public class MainActivity extends BaseActivity implements MainActivityMVP.View {
 
@@ -53,19 +44,7 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
 
         configureList();
 
-        mPresenter = new MainActivityPresenter(this, googleAPI());
-    }
-
-    private GoogleAPI googleAPI() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(List.class, new AddressDeserializer()).create();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GoogleAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .build();
-
-        return retrofit.create(GoogleAPI.class);
+        mPresenter = new MainActivityPresenter(this);
     }
 
     @Override

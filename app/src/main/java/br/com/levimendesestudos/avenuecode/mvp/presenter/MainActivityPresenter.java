@@ -1,18 +1,14 @@
 package br.com.levimendesestudos.avenuecode.mvp.presenter;
 
 import android.util.Log;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.inject.Inject;
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
-import br.com.levimendesestudos.avenuecode.deserializer.AddressDeserializer;
+import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -24,11 +20,13 @@ public class MainActivityPresenter implements MainActivityMVP.UserActions {
 
     private MainActivityMVP.View mView;
 
+    @Inject
     GoogleAPI mGoogleAPI;
 
-    public MainActivityPresenter(MainActivityMVP.View view, GoogleAPI googleAPI) {
-        mView      = view;
-        mGoogleAPI = googleAPI;
+    public MainActivityPresenter(MainActivityMVP.View view) {
+        mView = view;
+
+        DaggerInjector.get().inject(this);
     }
 
     @Override

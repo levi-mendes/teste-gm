@@ -5,25 +5,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.support.test.filters.LargeTest;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
-import android.test.suitebuilder.annotation.LargeTest;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import java.util.ArrayList;
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.R;
-import br.com.levimendesestudos.avenuecode.activities.MainActivity;
-import br.com.levimendesestudos.avenuecode.activities.MapsActivity;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static org.hamcrest.Matchers.not;
 
 /**
  * Created by 809778 on 10/08/2016.
