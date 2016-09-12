@@ -18,7 +18,7 @@ import retrofit.RxJavaCallAdapterFactory;
 public class GoogleApiModule {
 
     @Provides
-    GoogleAPI providesGoogleApiModule() {
+    GoogleAPI providesGoogleApi() {
         Gson gson = new GsonBuilder().registerTypeAdapter(List.class, new AddressDeserializer()).create();
 
         Retrofit retrofit = new Retrofit.Builder()
