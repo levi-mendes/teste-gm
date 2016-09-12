@@ -15,12 +15,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsActivityPresenter;
 import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
 import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsMVP.View {
 
     private GoogleMap mMap;
     private Address mAddress;

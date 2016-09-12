@@ -12,4 +12,5 @@
     <string name="item_saved">Item saved</string>
     <string name="cancel">Cancel</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="address">Address</string>
 </resources>
