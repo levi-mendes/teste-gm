@@ -1,11 +1,9 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -14,23 +12,23 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.R;
-import br.com.levimendesestudos.avenuecode.db.AddressDB;
 import br.com.levimendesestudos.avenuecode.models.Address;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsActivityMVP;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsActivityPresenter;
 import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
 import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsActivityMVP.View {
 
     private GoogleMap mMap;
     private Address mAddress;
-    private boolean mAll;
     private LatLngBounds.Builder mBuilder = new LatLngBounds.Builder();
     private List<Address> mList;
 
+    private MapsActivityPresenter mPresenter;
+    private Menu mMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +40,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
 
         mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
         //flag that indicates if all or a sinlge address
-        mAll       = getIntent().getBooleanExtra("all", false);
+
+        mPresenter = new MapsActivityPresenter(this);
     }
 
 
@@ -61,13 +60,25 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
 
         //after map is ready...
 
-        init();
-        zoom();
-
+        mPresenter.init();
         //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
     }
 
-    private void zoom() {
+    @Override
+    public void showToast(int res) {
+        ToastUtil.showShort(this, getString(res));
+    }
+
+    @Override
+    public Address address() {
+        int position = getIntent().getIntExtra("position", 1);
+        mAddress = mList.get(position);
+
+        return mAddress;
+    }
+
+    @Override
+    public void zoom() {
         LatLngBounds bounds = mBuilder.build();
 
         int width   = getResources().getDisplayMetrics().widthPixels;
@@ -78,9 +89,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         mMap.animateCamera(cu);
     }
 
+    @Override
     public void addMarker(Address address) {
-        Log.e("addMarker", address.toString());
-
         LatLng latLng = new LatLng(address.lati, address.longi);
 
         MarkerOptions markerOptions = new MarkerOptions()
@@ -92,92 +102,66 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback {
         mBuilder.include(latLng);
     }
 
-    private void init() {
-        if (!mAll) {
-            loadSingle();
-            return;
-        }
-
-        loadAll();
-    }
-
-    private void loadSingle() {
+    @Override
+    public void loadSingle() {
         //if a single item, we nees to get the selected position in the list
         int position = getIntent().getIntExtra("position", 1);
         mAddress = mList.get(position);
         addMarker(mAddress);
     }
 
-    private void loadAll() {
+    @Override
+    public void loadAll() {
         //add a marker for each item in the list
         for (int cont = 1; cont < mList.size(); cont++) {
             addMarker(mList.get(cont));
         }
     }
 
+    @Override
+    public boolean all() {
+        return getIntent().getBooleanExtra("all", false);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        //menu not necessary in case of all items
-        if (mAll) {
-            return false;
-        }
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.maps_menu, menu);
-
-        AddressDB db = new AddressDB(this);
-        Address address = db.find(mAddress.formattedAddress);
-
-        if (address == null) {
-            menu.findItem(R.id.itemSave).setVisible(true);
-            menu.findItem(R.id.itemDelete).setVisible(false);
-
-        } else {
-            menu.findItem(R.id.itemSave).setVisible(false);
-            menu.findItem(R.id.itemDelete).setVisible(true);
-        }
+        mMenu = menu;
+        mPresenter.createMenu();
 
         return true;
+    }
+
+
+    @Override
+    public void menuSave() {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.maps_menu, mMenu);
+
+        mMenu.findItem(R.id.itemSave).setVisible(true);
+        mMenu.findItem(R.id.itemDelete).setVisible(false);
+    }
+
+    @Override
+    public void menuDelete() {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.maps_menu, mMenu);
+
+        mMenu.findItem(R.id.itemSave).setVisible(false);
+        mMenu.findItem(R.id.itemDelete).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.itemSave:
-                save();
-                break;
+        mPresenter.itemSelected(item.getItemId());
 
-            case R.id.itemDelete:
-                delete();
-                break;
-        }
         return true;
     }
 
-    private void save() {
-        AddressDB db = new AddressDB(MapsActivity.this);
-        boolean res = db.save(mAddress);
 
-        if (res) {
-            ToastUtil.showShort(this, getString(R.string.item_saved));
-            finish();
-        }
-    }
-
-    private void delete() {
+    @Override
+    public void confirmationDelete() {
         ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.are_you_sure, android.R.string.ok);
-
-        confirmationDF.setOnDialogOptionClickListener(object -> {
-
-            AddressDB db = new AddressDB(MapsActivity.this);
-            boolean res = db.delete(mAddress);
-
-            if (res) {
-                ToastUtil.showShort(MapsActivity.this, R.string.item_deleted_from_table);
-                finish();
-            }
-        });
+        confirmationDF.setOnDialogOptionClickListener(object -> mPresenter.delete());
         confirmationDF.show(getFragmentManager(), "confirmationDF");
     }
 
