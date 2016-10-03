@@ -23,5 +23,6 @@ public interface MainMVP {
         void showNoResults();
         void hideNoResults();
         void hideKeyboard();
+        void cleanList();
     }
 }
