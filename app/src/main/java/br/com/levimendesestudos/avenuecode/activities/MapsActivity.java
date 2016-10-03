@@ -1,9 +1,17 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.Interpolator;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +19,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
@@ -20,7 +29,7 @@ import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsPresenter;
 import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
 import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
 
-public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsMVP.View {
+public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsMVP.View, GoogleMap.OnMarkerClickListener{
 
     private GoogleMap mMap;
     private Address mAddress;
@@ -44,6 +53,34 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mPresenter = new MapsPresenter(this);
     }
 
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        animateWhenClicked(marker);
+        return false;
+    }
+
+    private void animateWhenClicked(Marker marker) {
+        // This causes the marker at Perth to bounce into position when it is clicked.
+        Handler handler = new Handler();
+        long start = SystemClock.uptimeMillis();
+        long duration = 1500;
+
+        final Interpolator interpolator = new BounceInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = Math.max(1 - interpolator.getInterpolation((float) elapsed / duration), 0);
+                marker.setAnchor(0.5f, 1.0f + 2 * t);
+
+                if (t > 0.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                }
+            }
+        });
+    }
 
     /**
      * Manipulates the map once available.
@@ -61,7 +98,8 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         //after map is ready...
 
         mPresenter.init();
-        //mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+        mMap.setOnMarkerClickListener(this);
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
     }
 
     @Override
@@ -165,4 +203,33 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         confirmationDF.show(getFragmentManager(), "confirmationDF");
     }
 
+    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
+
+        private final View mWindow;
+        private final View mContents;
+
+        CustomInfoWindowAdapter() {
+            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
+            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
+        }
+
+        @Override
+        public View getInfoWindow(Marker marker) {
+            render(marker, mWindow);
+            return mWindow;
+        }
+
+        @Override
+        public View getInfoContents(Marker marker) {
+            render(marker, mContents);
+            return mContents;
+        }
+
+        private void render(Marker marker, View view) {
+            ((ImageView) view.findViewById(R.id.badge)).setImageResource(R.drawable.google_maps_icon);
+            String title = marker.getTitle();
+            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
+            snippetUi.setText(title);
+        }
+    }
 }
