@@ -2,9 +2,8 @@ package br.com.levimendesestudos.avenuecode.dagger;
 
 import javax.inject.Singleton;
 
-import br.com.levimendesestudos.avenuecode.db.AddressDB;
-import br.com.levimendesestudos.avenuecode.mvp.presenter.MainActivityPresenter;
-import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsActivityPresenter;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MainPresenter;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsPresenter;
 import dagger.Component;
 
 @Component(modules = {
@@ -14,6 +13,6 @@ import dagger.Component;
 @Singleton
 public interface AppComponent {
 
-    void inject(MainActivityPresenter presenter);
-    void inject(MapsActivityPresenter presenter);
+    void inject(MainPresenter presenter);
+    void inject(MapsPresenter presenter);
 }

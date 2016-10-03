@@ -7,7 +7,7 @@ import br.com.levimendesestudos.avenuecode.models.Address;
 /**
  * Created by 809778 on 09/08/2016.
  */
-public interface MainActivityMVP {
+public interface MainMVP {
 
     //Presenter should implement this interface
     interface UserActions {

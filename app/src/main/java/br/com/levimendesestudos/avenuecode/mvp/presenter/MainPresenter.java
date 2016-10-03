@@ -8,7 +8,7 @@ import javax.inject.Inject;
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MainMVP;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -16,14 +16,14 @@ import rx.schedulers.Schedulers;
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class MainActivityPresenter implements MainActivityMVP.UserActions {
+public class MainPresenter implements MainMVP.UserActions {
 
-    private MainActivityMVP.View mView;
+    private MainMVP.View mView;
 
     @Inject
     GoogleAPI mGoogleAPI;
 
-    public MainActivityPresenter(MainActivityMVP.View view) {
+    public MainPresenter(MainMVP.View view) {
         mView = view;
 
         DaggerInjector.get().inject(this);

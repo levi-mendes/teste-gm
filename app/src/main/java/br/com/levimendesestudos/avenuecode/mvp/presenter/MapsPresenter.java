@@ -10,7 +10,7 @@ import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 /**
  * Created by 809778 on 10/08/2016.
  */
-public class MapsActivityPresenter implements MapsMVP.Presenter {
+public class MapsPresenter implements MapsMVP.Presenter {
 
     private MapsMVP.View mView;
 
@@ -19,7 +19,7 @@ public class MapsActivityPresenter implements MapsMVP.Presenter {
 
     private Address mAddress;
 
-    public MapsActivityPresenter(MapsMVP.View view) {
+    public MapsPresenter(MapsMVP.View view) {
         mView = view;
 
         DaggerInjector.get().inject(this);

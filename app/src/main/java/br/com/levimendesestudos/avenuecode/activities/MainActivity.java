@@ -13,15 +13,15 @@ import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.adapters.AddressesListAdapter;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
-import br.com.levimendesestudos.avenuecode.mvp.presenter.MainActivityPresenter;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MainMVP;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MainPresenter;
 import br.com.levimendesestudos.avenuecode.utils.KeyBoardUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.OnEditorAction;
 
-public class MainActivity extends BaseActivity implements MainActivityMVP.View {
+public class MainActivity extends BaseActivity implements MainMVP.View {
 
     @BindView(R.id.etSearch)
     EditText etSearch;
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
     @BindView(R.id.tvNoResults)
     TextView tvNoResults;
 
-    MainActivityPresenter mPresenter;
+    MainPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainActivityMVP.View {
 
         configureList();
 
-        mPresenter = new MainActivityPresenter(this);
+        mPresenter = new MainPresenter(this);
     }
 
     @Override

@@ -13,8 +13,8 @@ import javax.inject.Inject;
 
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.models.Address;
-import br.com.levimendesestudos.avenuecode.mvp.contracts.MainActivityMVP;
-import br.com.levimendesestudos.avenuecode.mvp.presenter.MainActivityPresenter;
+import br.com.levimendesestudos.avenuecode.mvp.contracts.MainMVP;
+import br.com.levimendesestudos.avenuecode.mvp.presenter.MainPresenter;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -24,19 +24,19 @@ import static org.mockito.Mockito.when;
  * Created by 809778 on 10/08/2016.
  */
 @RunWith(MockitoJUnitRunner.class)
-public class MainActivityPresenterTest {
+public class MainPresenterTest {
 
     @Mock
-    private MainActivityMVP.View mView;
+    private MainMVP.View mView;
     @Mock
     @Inject
     private GoogleAPI mGoogleAPI;
 
-    MainActivityPresenter mPresenter;
+    MainPresenter mPresenter;
 
     @Before
     public void setUp() throws Exception {
-        mPresenter = new MainActivityPresenter(mView);
+        mPresenter = new MainPresenter(mView);
     }
 
     @Test
