@@ -50,6 +50,11 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
     }
 
     @Override
+    public void cleanList() {
+        rvAddresses.setAdapter(null);
+    }
+
+    @Override
     public void showPbLoading() {
         pbLoading.setVisibility(View.VISIBLE);
     }
