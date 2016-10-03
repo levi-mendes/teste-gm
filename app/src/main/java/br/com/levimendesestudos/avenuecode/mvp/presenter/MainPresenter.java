@@ -34,11 +34,7 @@ public class MainPresenter implements MainMVP.UserActions {
         mView.hideKeyboard();
         mView.showPbLoading();
 
-        Map<String, String> params = new HashMap<>();
-        params.put("address", mView.address());
-        params.put("sensor", "false");
-
-        mGoogleAPI.search(params)
+        mGoogleAPI.search(params())
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Subscriber<List<Address>>(){
@@ -58,6 +54,7 @@ public class MainPresenter implements MainMVP.UserActions {
                 public void onNext(List<Address> result) {
                     if (result == null || result.size() == 0) {
                         mView.showNoResults();
+                        mView.cleanList();
                         return;
                     }
 
@@ -68,6 +65,21 @@ public class MainPresenter implements MainMVP.UserActions {
             });
     }
 
+    private Map<String, String> params() {
+        Map<String, String> params = new HashMap<>();
+        params.put("address", mView.address());
+        params.put("sensor", "false");
+
+        return params;
+    }
+
+    /**
+     *
+     * only will add "Display All on Map", if returned more than one item
+     *
+     * @param list
+     *
+     */
     private void addShowDisplayAll(List<Address> list) {
         if (list.size() > 1) {
             Address address = new Address("Display All on Map", 0.0, 0.0);
