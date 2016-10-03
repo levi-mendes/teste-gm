@@ -6,12 +6,8 @@ import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.view.animation.Interpolator;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -23,6 +19,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.List;
 import br.com.levimendesestudos.avenuecode.R;
+import br.com.levimendesestudos.avenuecode.adapters.CustomInfoWindowAdapter;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsPresenter;
@@ -99,7 +96,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
         mPresenter.init();
         mMap.setOnMarkerClickListener(this);
-        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter());
+        mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
     }
 
     @Override
@@ -201,35 +198,5 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         ConfirmationDF confirmationDF = ConfirmationDF.newInstance(R.string.warnning, R.string.are_you_sure, android.R.string.ok);
         confirmationDF.setOnDialogOptionClickListener(object -> mPresenter.delete());
         confirmationDF.show(getFragmentManager(), "confirmationDF");
-    }
-
-    class CustomInfoWindowAdapter implements GoogleMap.InfoWindowAdapter {
-
-        private final View mWindow;
-        private final View mContents;
-
-        CustomInfoWindowAdapter() {
-            mWindow = getLayoutInflater().inflate(R.layout.custom_info_window, null);
-            mContents = getLayoutInflater().inflate(R.layout.custom_info_contents, null);
-        }
-
-        @Override
-        public View getInfoWindow(Marker marker) {
-            render(marker, mWindow);
-            return mWindow;
-        }
-
-        @Override
-        public View getInfoContents(Marker marker) {
-            render(marker, mContents);
-            return mContents;
-        }
-
-        private void render(Marker marker, View view) {
-            ((ImageView) view.findViewById(R.id.badge)).setImageResource(R.drawable.google_maps_icon);
-            String title = marker.getTitle();
-            TextView snippetUi = ((TextView) view.findViewById(R.id.snippet));
-            snippetUi.setText(title);
-        }
     }
 }
