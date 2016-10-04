@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Avenuecode</string>
+    <string name="app_name">Teste Google Maps</string>
     <string name="title_activity_maps">Map</string>
     <string name="digite">Digite</string>
     <string name="type_the_address">Type the Address</string>
