@@ -45,7 +45,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mapFragment.getMapAsync(this);
 
         mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
-        //flag that indicates if all or a sinlge address
 
         mPresenter = new MapsPresenter(this);
     }

@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
+
+import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
 import br.com.levimendesestudos.avenuecode.models.Address;
@@ -16,7 +18,7 @@ import rx.schedulers.Schedulers;
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class MainPresenter implements MainMVP.UserActions {
+public class MainPresenter implements MainMVP.Presenter {
 
     private MainMVP.View mView;
 
@@ -82,7 +84,7 @@ public class MainPresenter implements MainMVP.UserActions {
      */
     private void addShowDisplayAll(List<Address> list) {
         if (list.size() > 1) {
-            Address address = new Address("Display All on Map", 0.0, 0.0);
+            Address address = new Address(mView.getString(R.string.display_all_on_map), 0.0, 0.0);
             list.add(0, address);
         }
     }

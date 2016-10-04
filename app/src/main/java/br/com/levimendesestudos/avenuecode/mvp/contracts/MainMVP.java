@@ -10,7 +10,7 @@ import br.com.levimendesestudos.avenuecode.models.Address;
 public interface MainMVP {
 
     //Presenter should implement this interface
-    interface UserActions {
+    interface Presenter {
         void search();
     }
 
@@ -24,5 +24,6 @@ public interface MainMVP {
         void hideNoResults();
         void hideKeyboard();
         void cleanList();
+        String getString(int resId);
     }
 }
