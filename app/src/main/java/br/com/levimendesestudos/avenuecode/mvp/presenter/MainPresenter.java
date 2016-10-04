@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.inject.Inject;
-
 import br.com.levimendesestudos.avenuecode.R;
 import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
@@ -31,8 +30,28 @@ public class MainPresenter implements MainMVP.Presenter {
         DaggerInjector.get().inject(this);
     }
 
+    /**
+     *
+     * @return
+     */
+    private boolean validate() {
+        if (mView.address().isEmpty()) {
+            mView.setErrorAddress(true, mView.getString(R.string.type_an_address));
+            return false;
+
+        }
+
+        mView.setErrorAddress(false, null);
+
+        return true;
+    }
+
     @Override
     public void search() {
+        if (!validate()) {
+            return;
+        }
+
         mView.hideKeyboard();
         mView.showPbLoading();
 
@@ -88,5 +107,4 @@ public class MainPresenter implements MainMVP.Presenter {
             list.add(0, address);
         }
     }
-
 }

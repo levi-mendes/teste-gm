@@ -16,8 +16,8 @@ public interface MapsMVP {
         Address address();
         void loadAll();
         void loadSingle();
-        void menuSave();
-        void menuDelete();
+        void showMenuSave();
+        void showMenuDelete();
         void confirmationDelete();
     }
 

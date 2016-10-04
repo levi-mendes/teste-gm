@@ -16,16 +16,27 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <EditText
-            android:hint="@string/type_the_address"
-            android:id="@+id/etSearch"
-            android:singleLine="true"
+        <android.support.design.widget.TextInputLayout
+            android:layout_margin="10dp"
+            android:id="@+id/tilSearch"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:imeOptions="actionSearch" />
+            android:hint="Logradouro">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/tietSearch"
+                android:inputType="textCapCharacters"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:imeOptions="actionGo"
+                android:nextFocusDown="@+id/ibSearch" />
+
+        </android.support.design.widget.TextInputLayout>
 
         <ImageButton
+            android:layout_gravity="center_vertical"
             android:id="@+id/ibSearch"
             android:padding="5dp"
             android:src="@android:drawable/ic_menu_search"

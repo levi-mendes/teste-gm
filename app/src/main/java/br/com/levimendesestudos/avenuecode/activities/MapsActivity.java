@@ -167,7 +167,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
 
     @Override
-    public void menuSave() {
+    public void showMenuSave() {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.maps_menu, mMenu);
 
@@ -176,7 +176,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
     }
 
     @Override
-    public void menuDelete() {
+    public void showMenuDelete() {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.maps_menu, mMenu);
 

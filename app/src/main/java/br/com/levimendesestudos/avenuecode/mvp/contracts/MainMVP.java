@@ -25,5 +25,6 @@ public interface MainMVP {
         void hideKeyboard();
         void cleanList();
         String getString(int resId);
+        void setErrorAddress(boolean value, String resId);
     }
 }

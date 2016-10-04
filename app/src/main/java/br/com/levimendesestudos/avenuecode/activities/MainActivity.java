@@ -1,6 +1,8 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,8 +25,10 @@ import butterknife.OnEditorAction;
 
 public class MainActivity extends BaseActivity implements MainMVP.View {
 
-    @BindView(R.id.etSearch)
-    EditText etSearch;
+    @BindView(R.id.tietSearch)
+    TextInputEditText tietSearch;
+    @BindView(R.id.tilSearch)
+    TextInputLayout tilSearch;
     @BindView(R.id.ibSearch)
     ImageButton ibSearch;
     @BindView(R.id.rvAddresses)
@@ -42,11 +46,18 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        etSearch.setText("SpringField");
+        //etSearch.setText("SpringField");
+        //etSearch.setText("SpringField0000099384958984598459");
 
         configureList();
 
         mPresenter = new MainPresenter(this);
+    }
+
+    @Override
+    public void setErrorAddress(boolean value, String msg) {
+        tilSearch.setErrorEnabled(value);
+        tilSearch.setError(msg);
     }
 
     @Override
@@ -76,10 +87,10 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
 
     @Override
     public String address() {
-        return etSearch.getText().toString();
+        return tietSearch.getText().toString();
     }
 
-    @OnEditorAction(R.id.etSearch)
+    @OnEditorAction(R.id.tietSearch)
     public boolean etSearchAction() {
         mPresenter.search();
 

@@ -17,13 +17,10 @@ public class MapsPresenter implements MapsMVP.Presenter {
     @Inject
     AddressDB mAddressDB;
 
-    private Address mAddress;
-
     public MapsPresenter(MapsMVP.View view) {
         mView = view;
 
         DaggerInjector.get().inject(this);
-        mAddress = mView.address();
     }
 
     @Override
@@ -54,7 +51,7 @@ public class MapsPresenter implements MapsMVP.Presenter {
 
     @Override
     public void save() {
-        boolean res = mAddressDB.save(mAddress);
+        boolean res = mAddressDB.save(mView.address());
 
         if (res) {
             mView.showToast(R.string.item_saved);
@@ -64,7 +61,7 @@ public class MapsPresenter implements MapsMVP.Presenter {
 
     @Override
     public void delete() {
-        boolean res = mAddressDB.delete(mAddress);
+        boolean res = mAddressDB.delete(mView.address());
 
         if (res) {
             mView.showToast(R.string.item_deleted_from_table);
@@ -79,13 +76,13 @@ public class MapsPresenter implements MapsMVP.Presenter {
             return;
         }
 
-        Address address = mAddressDB.find(mAddress.formattedAddress);
+        Address address = mAddressDB.find(mView.address().formattedAddress);
 
         if (address == null) {
-            mView.menuSave();
+            mView.showMenuSave();
 
         } else {
-            mView.menuDelete();
+            mView.showMenuDelete();
         }
     }
 }
