@@ -1,13 +1,9 @@
 package br.com.levimendesestudos.avenuecode.activities;
 
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.animation.BounceInterpolator;
-import android.view.animation.Interpolator;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -24,7 +20,7 @@ import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsPresenter;
 import br.com.levimendesestudos.avenuecode.utils.ConfirmationDF;
-import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
+import br.com.levimendesestudos.avenuecode.utils.MarkerUtil;
 
 public class MapsActivity extends BaseActivity implements OnMapReadyCallback, MapsMVP.View, GoogleMap.OnMarkerClickListener{
 
@@ -45,62 +41,24 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         mapFragment.getMapAsync(this);
 
         mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
-
-        mPresenter = new MapsPresenter(this);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        animateWhenClicked(marker);
+        MarkerUtil.animateWhenClicked(marker);
+
         return false;
     }
 
-    private void animateWhenClicked(Marker marker) {
-        // This causes the marker at Perth to bounce into position when it is clicked.
-        Handler handler = new Handler();
-        long start = SystemClock.uptimeMillis();
-        long duration = 1500;
-
-        final Interpolator interpolator = new BounceInterpolator();
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = SystemClock.uptimeMillis() - start;
-                float t = Math.max(1 - interpolator.getInterpolation((float) elapsed / duration), 0);
-                marker.setAnchor(0.5f, 1.0f + 2 * t);
-
-                if (t > 0.0) {
-                    // Post again 16ms later.
-                    handler.postDelayed(this, 16);
-                }
-            }
-        });
-    }
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        //after map is ready...
-
+        mPresenter = new MapsPresenter(this);
         mPresenter.init();
+
         mMap.setOnMarkerClickListener(this);
         mMap.setInfoWindowAdapter(new CustomInfoWindowAdapter(this));
-    }
-
-    @Override
-    public void showToast(int res) {
-        ToastUtil.showShort(this, getString(res));
     }
 
     @Override
@@ -165,7 +123,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         return true;
     }
 
-
     @Override
     public void showMenuSave() {
         MenuInflater inflater = getMenuInflater();
@@ -190,7 +147,6 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
 
         return true;
     }
-
 
     @Override
     public void confirmationDelete() {
