@@ -34,7 +34,7 @@ public class MainPresenter implements MainMVP.Presenter {
      *
      * @return
      */
-    private boolean validate() {
+    public boolean validate() {
         if (mView.address().isEmpty()) {
             mView.setErrorAddress(true, mView.getString(R.string.type_an_address));
             return false;
