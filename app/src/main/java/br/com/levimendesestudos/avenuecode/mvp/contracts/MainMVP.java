@@ -15,7 +15,7 @@ public interface MainMVP {
     }
 
     //UI should implement this interface
-    interface View {
+    interface View extends BasicView {
         String address();
         void loadList(List<Address> list);
         void showPbLoading();
