@@ -3,10 +3,13 @@ package br.com.levimendesestudos.avenuecode.activities;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
+import br.com.levimendesestudos.avenuecode.mvp.contracts.BasicView;
+import br.com.levimendesestudos.avenuecode.utils.ToastUtil;
+
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements BasicView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -18,4 +21,9 @@ public class BaseActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }//
+
+    @Override
+    public void showToast(int res) {
+        ToastUtil.showShort(this, getString(res));
+    }
 }
