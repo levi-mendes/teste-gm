@@ -47,7 +47,6 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
         ButterKnife.bind(this);
 
         //etSearch.setText("SpringField");
-        //etSearch.setText("SpringField0000099384958984598459");
 
         configureList();
 
