@@ -1,5 +1,6 @@
 package br.com.levimendesestudos.avenuecode.presenter;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,5 +52,12 @@ public class MainPresenterTest {
         list.add(new Address("aaa", 0.1, 0.1));
 
         verify(mView).loadList(list);
+    }
+
+    @Test
+    public void validateShouldReturnFalseWhenAddressIsEmpty() {
+        when(mView.address()).thenReturn("");
+
+        Assert.assertFalse(mPresenter.validate());
     }
 }
