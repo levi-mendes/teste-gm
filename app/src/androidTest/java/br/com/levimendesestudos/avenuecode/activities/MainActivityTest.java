@@ -25,14 +25,14 @@ public class MainActivityTest {
 
     @Test
     public void testShouldShowTvNoResults() {
-        onView(ViewMatchers.withId(R.id.etSearch)).perform(typeText("0000099384958984598459"));
+        onView(ViewMatchers.withId(R.id.tietSearch)).perform(typeText("0000099384958984598459"));
         onView(withId(R.id.ibSearch)).perform(click());
         onView(withId(R.id.tvNoResults)).check(matches(isDisplayed()));
     }
 
     @Test
     public void shouldShowItemSave() {
-        onView(withId(R.id.etSearch)).perform(typeText("Springfield"));
+        onView(withId(R.id.tietSearch)).perform(typeText("Springfield"));
         onView(withId(R.id.ibSearch)).perform(click());
         onView(withId(R.id.rvAddresses)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
         onView(withId(R.id.itemSave)).check(matches(isDisplayed()));
