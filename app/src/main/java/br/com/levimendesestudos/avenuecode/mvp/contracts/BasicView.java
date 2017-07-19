@@ -7,4 +7,6 @@ package br.com.levimendesestudos.avenuecode.mvp.contracts;
 public interface BasicView {
 
     void showToast(int res);
+
+    String getString(int resId);
 }

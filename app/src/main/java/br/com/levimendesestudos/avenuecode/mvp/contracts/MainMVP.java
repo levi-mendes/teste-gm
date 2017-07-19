@@ -10,21 +10,31 @@ import br.com.levimendesestudos.avenuecode.models.Address;
 public interface MainMVP {
 
     //Presenter should implement this interface
-    interface Presenter {
-        void search();
+    abstract class Presenter extends BasicPresenter {
+
+        public abstract void search();
     }
 
     //UI should implement this interface
     interface View extends BasicView {
+
         String address();
+
         void loadList(List<Address> list);
+
         void showPbLoading();
+
         void hidePbLoading();
+
         void showNoResults();
+
         void hideNoResults();
+
         void hideKeyboard();
+
         void cleanList();
-        String getString(int resId);
+
         void setErrorAddress(boolean value, String resId);
+
     }
 }

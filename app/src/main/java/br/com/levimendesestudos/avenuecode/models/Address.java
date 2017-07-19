@@ -3,14 +3,21 @@ package br.com.levimendesestudos.avenuecode.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
+
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class Address implements Parcelable  {
+public class Address extends RealmObject implements Parcelable  {
 
+    @PrimaryKey
     public String formattedAddress;
     public double lati;
     public double longi;
+
+    public Address() {
+    }
 
     private Address(Parcel in) {
         formattedAddress = in.readString();

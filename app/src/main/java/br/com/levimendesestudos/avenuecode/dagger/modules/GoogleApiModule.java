@@ -1,4 +1,4 @@
-package br.com.levimendesestudos.avenuecode.dagger;
+package br.com.levimendesestudos.avenuecode.dagger.modules;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

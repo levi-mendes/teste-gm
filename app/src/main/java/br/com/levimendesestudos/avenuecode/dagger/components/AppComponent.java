@@ -1,7 +1,9 @@
-package br.com.levimendesestudos.avenuecode.dagger;
+package br.com.levimendesestudos.avenuecode.dagger.components;
 
 import javax.inject.Singleton;
 
+import br.com.levimendesestudos.avenuecode.dagger.modules.AddressDBModule;
+import br.com.levimendesestudos.avenuecode.dagger.modules.GoogleApiModule;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MainPresenter;
 import br.com.levimendesestudos.avenuecode.mvp.presenter.MapsPresenter;
 import dagger.Component;

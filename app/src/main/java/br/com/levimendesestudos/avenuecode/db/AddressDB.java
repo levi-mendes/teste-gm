@@ -1,57 +1,42 @@
 package br.com.levimendesestudos.avenuecode.db;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-
 import br.com.levimendesestudos.avenuecode.models.Address;
+import io.realm.Realm;
 
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class AddressDB extends DBGenericClass {
-
-    public static final String TB_NAME = "TB_ADDRESS";
-
-    public static final String ADDRESS   = "address";
-    public static final String LATITUDE  = "latitude";
-    public static final String LONGITUDE = "longitude";
-
-    public AddressDB(Context context) {
-        super(context);
-    }
+public class AddressDB {
 
     public boolean save(Address address) {
-        ContentValues values = new ContentValues();
+        Realm realm = Realm.getDefaultInstance();
 
-        values.put(ADDRESS,   address.formattedAddress);
-        values.put(LATITUDE,  address.lati);
-        values.put(LONGITUDE, address.longi);
+        // Copy the object to Realm. Any further changes must happen on realmUser
+        realm.beginTransaction();
+        Address retorno = realm.copyToRealm(address);
+        realm.commitTransaction();
 
-        boolean result = database.insert(TB_NAME, null, values) > 0 ? true : false;
-
-        return result;
+        return retorno != null;
     }
 
-    public boolean delete(Address address) {
-        String [] param = new String[]{address.formattedAddress};
-        boolean result = database.delete(TB_NAME, ADDRESS + " = ?", param) > 0 ? true : false;
+    public void delete(Address pAddress) {
+        Realm realm = Realm.getDefaultInstance();
 
-        return result;
+        realm.beginTransaction();
+        Address address = realm.where(Address.class)
+                .equalTo("formattedAddress", pAddress.formattedAddress)
+                .findFirst();
+
+        address.deleteFromRealm();
+        realm.commitTransaction();
     }
 
-    public Address find(String address) {
-        Address result = null;
-        String [] param = new String[]{address};
-        Cursor cursor = database.query(TB_NAME, null, ADDRESS + " = ?", param, null, null, null);
+    public Address find(Address pAddress) {
+        Realm realm = Realm.getDefaultInstance();
+        Address address = realm.where(Address.class)
+                .equalTo("formattedAddress", pAddress.formattedAddress)
+                .findFirst();
 
-        if (cursor.moveToFirst()) {
-            //return any object just to say "that address exists"
-            result = new Address(null, 0.0, 0.0);
-        }
-
-        fecharCursor(cursor);
-
-        return result;
+        return address;
     }
 }

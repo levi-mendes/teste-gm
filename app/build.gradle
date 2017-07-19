@@ -1,4 +1,9 @@
+plugins {
+    id "me.tatarka.retrolambda" version "3.2.2"//lambda no java 7
+}
+
 apply plugin: 'com.android.application'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -13,9 +18,14 @@ android {
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
 
-        jackOptions {
-            enabled true
-        }
+        /*
+            Jack doesn't work with the Transform API in Gradle.
+            As a result, the Realm-Transformer, which relies on the Transform API, cannot be used with Jack.
+            Use Retrolambda instead of Jack for Java 8 feature support.
+         */
+        //jackOptions {
+        //  enabled true
+        //}
     }
 
     buildTypes {
@@ -91,8 +101,6 @@ dependencies {
         exclude group: 'stax', module: 'stax-api'
         exclude group: 'stax', module: 'stax'
     }
-
-    compile "org.greenrobot:eventbus:3.0.0"
 
     // Android Testing Support Library's runner and rules
     androidTestCompile "com.android.support.test:runner:0.5"

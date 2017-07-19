@@ -7,25 +7,38 @@ import br.com.levimendesestudos.avenuecode.models.Address;
  */
 public interface MapsMVP {
 
-    interface View {
+    interface View extends BasicView {
+
         void zoom();
+
         void addMarker(Address address);
+
         boolean all();
-        void showToast(int res);
+
         void finish();
+
         Address address();
+
         void loadAll();
+
         void loadSingle();
+
         void showMenuSave();
+
         void showMenuDelete();
+
         void confirmationDelete();
+
     }
 
-    interface Presenter {
-        void init();
-        void itemSelected(int item);
-        void save();
-        void delete();
-        void createMenu();
+    abstract class Presenter extends BasicPresenter {
+
+        public abstract void itemSelected(int item);
+
+        public abstract void save();
+
+        public abstract void delete();
+
+        public abstract void createMenu();
     }
 }

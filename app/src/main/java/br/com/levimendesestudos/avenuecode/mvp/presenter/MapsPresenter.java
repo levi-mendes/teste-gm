@@ -10,7 +10,7 @@ import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 /**
  * Created by 809778 on 10/08/2016.
  */
-public class MapsPresenter implements MapsMVP.Presenter {
+public class MapsPresenter extends MapsMVP.Presenter {
 
     private MapsMVP.View mView;
 
@@ -61,12 +61,13 @@ public class MapsPresenter implements MapsMVP.Presenter {
 
     @Override
     public void delete() {
-        boolean res = mAddressDB.delete(mView.address());
+        //boolean res = mAddressDB.delete(mView.address());
+        mAddressDB.delete(mView.address());
 
-        if (res) {
+        //if (res) {
             mView.showToast(R.string.item_deleted_from_table);
             mView.finish();
-        }
+        //}
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MapsPresenter implements MapsMVP.Presenter {
             return;
         }
 
-        Address address = mAddressDB.find(mView.address().formattedAddress);
+        Address address = mAddressDB.find(mView.address());
 
         if (address == null) {
             mView.showMenuSave();

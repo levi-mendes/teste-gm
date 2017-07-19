@@ -11,13 +11,11 @@ import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MainMVP;
 import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class MainPresenter implements MainMVP.Presenter {
+public class MainPresenter extends MainMVP.Presenter {
 
     private MainMVP.View mView;
 
@@ -28,6 +26,11 @@ public class MainPresenter implements MainMVP.Presenter {
         mView = view;
 
         DaggerInjector.get().inject(this);
+    }
+
+    @Override
+    public void init() {
+
     }
 
     /**
@@ -55,35 +58,36 @@ public class MainPresenter implements MainMVP.Presenter {
         mView.hideKeyboard();
         mView.showPbLoading();
 
-        mGoogleAPI.search(params())
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(new Subscriber<List<Address>>(){
-                @Override
-                public void onCompleted() {
-                    mView.hidePbLoading();
-                    unsubscribe();
+        subscribe(mGoogleAPI.search(params()), handleResultSearch());
+    }
+
+    private Subscriber<List<Address>> handleResultSearch() {
+        return new Subscriber<List<Address>>(){
+            @Override
+            public void onCompleted() {
+                mView.hidePbLoading();
+                unsubscribe();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                unsubscribe();
+                Log.e("onError", e.getMessage(), e);
+            }
+
+            @Override
+            public void onNext(List<Address> result) {
+                if (result == null || result.size() == 0) {
+                    mView.showNoResults();
+                    mView.cleanList();
+                    return;
                 }
 
-                @Override
-                public void onError(Throwable e) {
-                    unsubscribe();
-                    Log.e("onError", e.getMessage(), e);
-                }
-
-                @Override
-                public void onNext(List<Address> result) {
-                    if (result == null || result.size() == 0) {
-                        mView.showNoResults();
-                        mView.cleanList();
-                        return;
-                    }
-
-                    addShowDisplayAll(result);
-                    mView.hideNoResults();
-                    mView.loadList(result);
-                }
-            });
+                addShowDisplayAll(result);
+                mView.hideNoResults();
+                mView.loadList(result);
+            }
+        };
     }
 
     private Map<String, String> params() {
