@@ -32,9 +32,8 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.address_row, parent, false);
-        ViewHolder vh = new ViewHolder(v);
 
-        return vh;
+        return new ViewHolder(v);
     }
 
     @Override
@@ -54,7 +53,7 @@ public class AddressesListAdapter extends RecyclerView.Adapter<AddressesListAdap
 
         Intent intent = new Intent(mContext, MapsActivity.class);
         bundle.putInt("position", position);
-        bundle.putSerializable("addresses", (ArrayList)list);
+        bundle.putParcelableArrayList("addresses", (ArrayList)list);
         intent.putExtras(bundle);
         mContext.startActivity(intent);
     }

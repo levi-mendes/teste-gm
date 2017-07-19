@@ -40,7 +40,7 @@ public class MapsActivity extends BaseActivity implements OnMapReadyCallback, Ma
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        mList      = (List<Address>)getIntent().getSerializableExtra("addresses");
+        mList = getIntent().getParcelableArrayListExtra("addresses");
     }
 
     @Override

@@ -6,11 +6,9 @@ import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
-
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.models.Address;
 
 /**
@@ -31,13 +29,12 @@ public class AddressDeserializer implements JsonDeserializer<Object> {
         if (array != null && array.size() > 0) {
 
             for (int cont = 0; cont < array.size(); cont++) {
+                JsonElement je = array.get(cont);
+                JsonObject jo  = je.getAsJsonObject();
 
-                JsonElement jsonElement = array.get(cont);
-                JsonObject jsonObject = jsonElement.getAsJsonObject();
+                String formattedAddress = jo.get("formatted_address").getAsString();
 
-                String formattedAddress = jsonObject.get("formatted_address").toString().replace("\"", "");
-
-                JsonObject geometry    = jsonObject.getAsJsonObject("geometry");
+                JsonObject geometry    = jo.getAsJsonObject("geometry");
                 JsonObject location    = geometry.getAsJsonObject("location");
 
                 double latitude  = location.get("lat").getAsDouble();

@@ -43,7 +43,7 @@ public class MapsActivityTest {
 
             //Intent intent = new Intent();
             bundle.putBoolean("all", false);
-            bundle.putSerializable("addresses", (ArrayList)list);
+            bundle.putParcelableArrayList("addresses", (ArrayList)list);
             bundle.putInt("position", 0);
 
             intent.putExtras(bundle);
