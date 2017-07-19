@@ -4,9 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 import br.com.levimendesestudos.avenuecode.models.Address;
-import retrofit.http.GET;
-import retrofit.http.Headers;
-import retrofit.http.QueryMap;
+import retrofit2.http.GET;
+import retrofit2.http.Headers;
+import retrofit2.http.QueryMap;
 import rx.Observable;
 
 /**

@@ -7,9 +7,9 @@ import br.com.levimendesestudos.avenuecode.api.GoogleAPI;
 import br.com.levimendesestudos.avenuecode.deserializer.AddressDeserializer;
 import dagger.Module;
 import dagger.Provides;
-import retrofit.GsonConverterFactory;
-import retrofit.Retrofit;
-import retrofit.RxJavaCallAdapterFactory;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * Created by 809778 on 23/05/2016.
@@ -18,15 +18,43 @@ import retrofit.RxJavaCallAdapterFactory;
 public class GoogleApiModule {
 
     @Provides
-    GoogleAPI providesGoogleApi() {
-        Gson gson = new GsonBuilder().registerTypeAdapter(List.class, new AddressDeserializer()).create();
+    public GoogleAPI providesGoogleApi(Retrofit retrofit) {
+          return retrofit.create(GoogleAPI.class);
+    }
 
+    @Provides
+    public String providesUrl() {
+        return GoogleAPI.BASE_URL;
+    }
+
+    @Provides
+    public Retrofit providesRetrofit(String url, GsonConverterFactory factory) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(GoogleAPI.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .baseUrl(url)
+                .addConverterFactory(factory)
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
 
-        return retrofit.create(GoogleAPI.class);
+        return retrofit;
+    }
+
+    @Provides
+    public GsonBuilder providesGsonBuilder() {
+        return new GsonBuilder();
+    }
+
+    @Provides
+    public Gson providesGson(GsonBuilder gsonBuilder, AddressDeserializer deserializer) {
+        return gsonBuilder.registerTypeAdapter(List.class, deserializer).create();
+    }
+
+    @Provides
+    public AddressDeserializer providesDeserializer() {
+        return new AddressDeserializer();
+    }
+
+    @Provides
+    public GsonConverterFactory providesAdapterFactory(Gson gson) {
+        return GsonConverterFactory.create(gson);
     }
 }

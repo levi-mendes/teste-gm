@@ -6,8 +6,8 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.KeyEvent;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,7 +46,7 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        //etSearch.setText("SpringField");
+        tietSearch.setText("SpringField");
 
         configureList();
 
@@ -90,7 +90,7 @@ public class MainActivity extends BaseActivity implements MainMVP.View {
     }
 
     @OnEditorAction(R.id.tietSearch)
-    public boolean etSearchAction() {
+    public boolean etSearchAction(TextView textView, int i, KeyEvent keyEvent) {
         mPresenter.search();
 
         return true;
