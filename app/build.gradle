@@ -1,13 +1,11 @@
-plugins {
-    id "me.tatarka.retrolambda" version "3.2.2"//lambda no java 7
-}
-
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
-    buildToolsVersion '25.0.1'
+    buildToolsVersion '26.0.2'
+
+    flavorDimensions "default"
 
     defaultConfig {
         applicationId "br.com.levimendesestudos.avenuecode"
@@ -17,15 +15,6 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner 'android.support.test.runner.AndroidJUnitRunner'
-
-        /*
-            Jack doesn't work with the Transform API in Gradle.
-            As a result, the Realm-Transformer, which relies on the Transform API, cannot be used with Jack.
-            Use Retrolambda instead of Jack for Java 8 feature support.
-         */
-        //jackOptions {
-        //  enabled true
-        //}
     }
 
     buildTypes {
