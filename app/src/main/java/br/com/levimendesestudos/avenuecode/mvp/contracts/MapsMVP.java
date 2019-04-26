@@ -31,14 +31,14 @@ public interface MapsMVP {
 
     }
 
-    abstract class Presenter extends BasicPresenter {
+    interface Presenter extends BasicPresenter {
 
-        public abstract void itemSelected(int item);
+        void itemSelected(int item);
 
-        public abstract void save();
+        void save();
 
-        public abstract void delete();
+        void delete();
 
-        public abstract void createMenu();
+        void createMenu();
     }
 }

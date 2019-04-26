@@ -33,10 +33,9 @@ public class AddressDB {
 
     public Address find(Address pAddress) {
         Realm realm = Realm.getDefaultInstance();
-        Address address = realm.where(Address.class)
+
+        return realm.where(Address.class)
                 .equalTo("formattedAddress", pAddress.formattedAddress)
                 .findFirst();
-
-        return address;
     }
 }

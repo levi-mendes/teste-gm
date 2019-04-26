@@ -11,11 +11,13 @@ import br.com.levimendesestudos.avenuecode.dagger.DaggerInjector;
 import br.com.levimendesestudos.avenuecode.models.Address;
 import br.com.levimendesestudos.avenuecode.mvp.contracts.MainMVP;
 import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by 809778 on 09/08/2016.
  */
-public class MainPresenter extends MainMVP.Presenter {
+public class MainPresenter implements MainMVP.Presenter {
 
     private MainMVP.View mView;
 
@@ -41,7 +43,6 @@ public class MainPresenter extends MainMVP.Presenter {
         if (mView.address().isEmpty()) {
             mView.setErrorAddress(true, mView.getString(R.string.type_an_address));
             return false;
-
         }
 
         mView.setErrorAddress(false, null);
@@ -58,7 +59,10 @@ public class MainPresenter extends MainMVP.Presenter {
         mView.hideKeyboard();
         mView.showPbLoading();
 
-        subscribe(mGoogleAPI.search(params()), handleResultSearch());
+        mGoogleAPI.search(params())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(handleResultSearch());
     }
 
     private Subscriber<List<Address>> handleResultSearch() {

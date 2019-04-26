@@ -1,7 +1,6 @@
 package br.com.levimendesestudos.avenuecode.mvp.contracts;
 
 import java.util.List;
-
 import br.com.levimendesestudos.avenuecode.models.Address;
 
 /**
@@ -10,9 +9,9 @@ import br.com.levimendesestudos.avenuecode.models.Address;
 public interface MainMVP {
 
     //Presenter should implement this interface
-    abstract class Presenter extends BasicPresenter {
+    interface Presenter extends BasicPresenter {
 
-        public abstract void search();
+        void search();
     }
 
     //UI should implement this interface

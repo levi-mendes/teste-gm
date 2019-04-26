@@ -10,7 +10,7 @@ import br.com.levimendesestudos.avenuecode.mvp.contracts.MapsMVP;
 /**
  * Created by 809778 on 10/08/2016.
  */
-public class MapsPresenter extends MapsMVP.Presenter {
+public class MapsPresenter implements MapsMVP.Presenter {
 
     private MapsMVP.View mView;
 
